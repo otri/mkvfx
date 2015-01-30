@@ -6,7 +6,9 @@ Install node, minimally 0.11.14, using nvm. You'll also get npm with it.
 
 Install grunt using
 
+```sh
  npm install -g grunt-cli
+```
 
 clone this repo. Run grunt in the root directory.
 
@@ -14,7 +16,7 @@ Now type mkvfx, and all will be revealed.
 
 You should see a message like -
 
-
+```
  mkvfx knows how to build:
  Alembic
  boost
@@ -51,7 +53,7 @@ You should see a message like -
 
 
  Note that git repos are shallow cloned.
-
+```
 
 
 
