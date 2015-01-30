@@ -1,0 +1,399 @@
+{
+	"packages": [ 
+		{
+			"name": "Alembic",
+			"dir": "Alembic",
+			"build_in": "$(MKVFX_SRC_ROOT)/Alembic",
+			"dependencies": [ "boost", "hdf5", "IlmBase", "PyIlmBase" ],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/alembic/alembic.git"
+			},
+			"notes": "PyIlmBase is not building yet, so PyAlembic is not building",
+			"recipe_osx": [
+				"cmake -DUSE_PYILMBASE=0 -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=foo -DCMAKE_INSTALL_PREFIX=foo2 +",
+				"-DBOOST_INCLUDEDIR=$(MKVFX_ROOT)/include +",
+				"-DBOOST_LIBRARYDIR=$(MKVFX_ROOT)/lib +",
+				"-DHDF5_ROOT=$(MKVFX_ROOT) +",
+				"-DALEMBIC_PYILMBASE_PYIMATH_LIB= +",
+				"-DILMBASE_ROOT=$(MKVFX_ROOT)",
+				"make -j2",
+				"make install"
+			]
+		},
+		{ 
+			"name": "boost",
+			"dir": "boost",
+			"build_in": "$(MKVFX_SRC_ROOT)/boost/boost_1_57_0",
+			"dependencies": [ "boost-build-club" ],
+			"repository": {
+				"type": "curl-tgz",
+				"url": "http://downloads.sourceforge.net/sourceforge/boost/boost_1_57_0.tar.gz"
+			},
+			"recipe_osx": [
+				"echo $(MKVFX_SRC_ROOT)",
+				"cp $(MKVFX_SRC_ROOT)/boost-build-club/* $(MKVFX_SRC_ROOT)/boost/boost_1_57_0",
+				"chmod 744 build-OSX.sh;./build-OSX.sh",
+				"cp $(MKVFX_SRC_ROOT)/boost/boost_1_57_0/stage-OSX/lib/* $(MKVFX_ROOT)/lib",
+				"cp -R $(MKVFX_SRC_ROOT)/boost/boost_1_57_0/boost $(MKVFX_ROOT)/include/boost"
+			]
+		},
+		{
+			"name": "boost-build-club",
+			"dir": "boost-build-club",
+			"build_in": "$(MKVFX_SRC_ROOT)/boost-build-club",
+			"repository": {
+				"type": "git",
+				"url": "https://github.com/meshula/boost-build-club.git"
+			},
+			"recipe_osx": [
+			]
+		},
+		{
+			"name": "c-blosc",
+			"dir": "c-blosc",
+			"build_in": "$(MKVFX_BUILD_ROOT)/c-blosc",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/Blosc/c-blosc.git"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/c-blosc",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "glew",
+			"dir": "glew",
+			"build_in": "$(MKVFX_SRC_ROOT)/glew",
+			"repository": {
+				"type": "git",
+				"url": "https://github.com/nigels-com/glew.git"
+			},
+			"recipe_osx": [
+				"make -C $(MKVFX_SRC_ROOT)/glew extensions",
+				"make -C $(MKVFX_SRC_ROOT)/glew all",
+				"make -C $(MKVFX_SRC_ROOT)/glew GLEW_DEST='$(MKVFX_ROOT)' install"
+			]
+		},
+		{
+			"name": "glfw",
+			"dir": "glfw",
+			"notes": "GLFW_USE_RETINA option enables retina displays",
+			"build_in": "$(MKVFX_BUILD_ROOT)/glfw",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/glfw/glfw.git"
+			}
+			,
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) -DGLFW_USE_MENUBAR=1 $(MKVFX_SRC_ROOT)/glfw",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "hdf5",
+			"dir": "hdf5",
+			"build_in": "$(MKVFX_BUILD_ROOT)/hdf5",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/meshula/hdf5.git"
+			},
+			"recipe_osx": [
+				"cmake -DHDF5_BUILD_HL_LIB=1 -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=build -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/hdf5",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "IlmBase",
+			"notes": "Namespaced dylibs must be symlinked to the base names",
+			"dir": "OpenEXR",
+			"build_in": "$(MKVFX_BUILD_ROOT)/IlmBase",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/openexr/openexr.git"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/IlmBase",
+				"make -j 4",
+				"make install",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIex-2_2.dylib $(MKVFX_ROOT)/lib/libIex.dylib",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIex-2_2.la $(MKVFX_ROOT)/lib/libIex.la",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIexMath-2_2.dylib $(MKVFX_ROOT)/lib/libIexMath.dylib",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIexMath-2_2.la $(MKVFX_ROOT)/lib/libIexMath.la",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIlmThread-2_2.dylib $(MKVFX_ROOT)/lib/libIlmThread.dylib",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIlmThread-2_2.la $(MKVFX_ROOT)/lib/libIlmThread.la",
+				"ln -s -f $(MKVFX_ROOT)/lib/libImath-2_2.dylib $(MKVFX_ROOT)/lib/libImath.dylib",
+				"ln -s -f $(MKVFX_ROOT)/lib/libImath-2_2.la $(MKVFX_ROOT)/lib/libImath.la"
+			]
+		},
+		{
+			"name": "libjpeg",
+			"dir": "libjpeg",
+			"build_in": "$(MKVFX_SRC_ROOT)/libjpeg/jpeg-6b",
+			"repository": {
+				"type": "curl-tgz",
+				"url": "http://www.ijg.org/files/jpegsrc.v6b.tar.gz"
+			},
+			"recipe_osx": [
+				"./configure --prefix=$(MKVFX_ROOT)",
+				"make -j4",
+				"make install",
+				"make install-lib"
+			]
+		},
+		{
+			"name": "libpng",
+			"dir": "libpng",
+			"build_in": "$(MKVFX_SRC_ROOT)/libpng",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/glennrp/libpng.git"
+			},
+			"recipe_osx": [
+				"autoreconf -fiv",
+				"./configure --prefix=$(MKVFX_ROOT)",
+				"make install"
+			]
+		},
+		{
+			"name": "libtiff",
+			"notes": "disabled C++ extensions because they don't compile",
+			"dir": "libtiff",
+			"build_in": "$(MKVFX_SRC_ROOT)/libtiff",
+			"repository": {
+				"type": "git",
+				"url": "https://github.com/vadz/libtiff"
+			},
+			"recipe_osx": [
+				"./configure --prefix=$(MKVFX_ROOT) --enable-cxx=0",
+				"make -j4",
+				"make install"
+			]
+		},
+		{
+			"name": "llvm",
+			"dir": "llvm",
+			"build_in": "$(MKVFX_BUILD_ROOT)/llvm",
+			"notes": "using release_35 to match OSX system clang",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/llvm-mirror/llvm.git",
+				"branch": "release_35"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=\"X86\" -DLLVM_REQUIRES_RTTI=ON +",
+				" -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/llvm",
+				"make -j4",
+				"make install"
+			]
+		},
+		{
+			"name": "OpenColorIO",
+			"dir": "OpenColorIO",
+			"build_in": "$(MKVFX_BUILD_ROOT)/OpenColorIO",
+			"notes": "OpenColorIO and OpenImageIO are mutually dependent so running mkvfx twice is necessary",
+			"dependencies": ["glew","python"],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/imageworks/OpenColorIO.git"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenColorIO",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "OpenEXR",
+			"notes": "Namespaced dylibs must be symlinked to the base names",
+			"dir": "OpenEXR",
+			"build_in": "$(MKVFX_BUILD_ROOT)/OpenEXR",
+			"dependencies": [ "IlmBase" ],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/openexr/openexr.git"
+			},
+			"recipe_osx": [
+				"cmake -DILMBASE_PACKAGE_PREFIX=$(MKVFX_ROOT) -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/OpenEXR",
+				"make -j 4",
+				"make install",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIlmImf-2_2.dylib $(MKVFX_ROOT)/lib/libIlmImf.dylib",
+				"ln -s -f $(MKVFX_ROOT)/lib/libIlmImfUtil-2_2.dylib $(MKVFX_ROOT)/lib/libIlmImfUtil.dylib"
+			]
+		},
+		{
+			"name": "OpenImageIO",
+			"notes": "Specify FIELD3D_HOME= when Field3d is built",
+			"dir": "OpenImageIO",
+			"build_in": "$(MKVFX_SRC_ROOT)/OpenImageIO",
+			"dependencies": [ "libjpeg", "libpng", "libtiff", "OpenColorIO", "glew" ],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/OpenImageIO/oiio.git"
+			},
+			"recipe_osx": [
+				"mkdir -p build",
+				"cd build;cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) +",
+				"-DCMAKE_CXX_COMPILER_WORKS=1 +",
+				"-DOPENEXR_INCLUDE_DIR=$(MKVFX_ROOT)/include +",
+				"-DOPENEXR_ILMIMF_LIBRARIES=$(MKVFX_ROOT)/lib +",
+				"-DOCIO_PATH=$(MKVFX_ROOT) +",
+				"..",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "OpenShadingLanguage-WIP",
+			"dir": "OpenShadingLanguage",
+			"build_in": "$(MKVFX_SRC_ROOT)/OpenShadingLanguage",
+			"dependencies": ["OpenImageIO", "partio", "llvm"],
+			"notes": "export library path doesn't work from this script. Must be a way to set it for subprocesses, right now I am doing it from CLI",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/imageworks/OpenShadingLanguage.git"
+			},
+			"recipe_osx": [
+				"mkdir -p build",
+				"cd build; +",
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) +",
+				" -DTHIRD_PARTY_TOOLS_HOME=$(MKVFX_ROOT) +",
+				" -DLLVM_CONFIG=$(MKVFX_ROOT)/bin/llvm-config -DLLVM_STATIC=1 +",
+				" -DILMBASE_HOME=$(MKVFX_ROOT)/include +",
+				" -DUSE_CPP11=1 -DUSE_LIBCPLUSPLUS=1 +",
+				" ..",
+				"export DYLD_LIBRARY_PATH=$(MKVFX_ROOT)/lib; +",
+				"cd build;make -j 4",
+				"cd build;make install"
+			]
+		},
+		{
+			"name": "OpenSubdiv",
+			"dir": "OpenSubdiv",
+			"build_in": "$(MKVFX_ROOT)/OpenSubdiv",
+			"dependencies": ["glew", "IlmBase", "ptex"],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/PixarAnimationStudios/OpenSubdiv.git"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) -DGLEW_LOCATION=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenSubdiv",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "OpenVDB-WIP",
+			"dir": "OpenVDB",
+			"build_in": "$(MKVFX_ROOT)/OpenVDB",
+			"dependencies": ["c-blosc", "hdf5", "tbb", "boost", "IlmBase"],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/dreamworksanimation/openvdb.git"
+			},
+			"recipe_osx": [
+			]
+		},
+		{
+			"name": "partio",
+			"note": "bug in partio cmake file expects an html directory forcing in-src build",
+			"dir": "partio",
+			"build_in": "$(MKVFX_SRC_ROOT)/partio",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/wdas/partio.git"
+			},
+			"recipe_osx": [
+				"mkdir -p $(MKVFX_SRC_ROOT)/partio/src/doc/html",
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/partio",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "ptex",
+			"dir": "ptex",
+			"build_in": "$(MKVFX_SRC_ROOT)/ptex",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/wdas/ptex.git"
+			},
+			"recipe_osx": [
+				"cd $(MKVFX_SRC_ROOT)/ptex/src;make INSTALLDIR='$(MKVFX_ROOT)'"
+			]
+		},
+		{
+			"name": "PyIlmBase",
+			"notes": "A system include must be patched into CMakeFiles.txt for boost python",
+			"dir": "OpenEXR",
+			"build_in": "$(MKVFX_BUILD_ROOT)/PyIlmBase",
+			"dependencies": [ "IlmBase", "boost", "python" ],
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/openexr/openexr.git"
+			},
+			"recipe_osx": [
+				"sed '11i\\\n\\'$'\\nSET(CMAKE_CXX_FLAGS \"-isystem $(MKVFX_ROOT)/include\")'$'\\n' +",
+				"$(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/CMakeLists.txt > $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/xxx.tmp",
+                "rm $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/CMakeLists.txt",
+                "mv $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/xxx.tmp $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/CMakeLists.txt",
+				"cmake -DILMBASE_PACKAGE_PREFIX=$(MKVFX_ROOT) -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "python",
+			"dir": "python",
+			"build_in": "$(MKVFX_SRC_ROOT)/python/Python-2.7.3",
+			"dependencies": "sqlite",
+			"repository": {
+				"type": "curl-tgz",
+				"url": "http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2"
+			},
+			"recipe_osx": [
+				"./configure --prefix=$(MKVFX_ROOT)",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "sqlite",
+			"dir": "sqlite",
+			"build_in": "$(MKVFX_SRC_ROOT)/sqlite/sqlite-autoconf-3070900",
+			"repository": {
+				"type": "curl-tgz",
+				"url": "http://www.sqlite.org/sqlite-autoconf-3070900.tar.gz"
+			},
+			"recipe_osx": [
+				"echo using sqlite from system SDK"
+			],
+			"recipe_linux": [
+				"./configure --prefix=$(MKVFX_ROOT)",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
+			"name": "tbb",
+			"dir": "tbb",
+			"build_in": "$(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss",
+			"repository": {
+				"type": "curl-tgz",
+				"url": "https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb43_20141204oss_src.tgz"
+			},
+			"recipe_osx": [
+				"cd $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss",
+				"pwd",
+				"make -j 4",
+				"cp $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/build/macos_intel64_clang_cc4.2.1_os10.10.1_release/*.dylib $(MKVFX_ROOT)/lib",
+				"cp -R $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/include/serial $(MKVFX_ROOT)/include/serial",
+				"cp -R $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/include/tbb $(MKVFX_ROOT)/include/tbb"
+			]
+		}
+	]
+}
