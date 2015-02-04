@@ -21,7 +21,21 @@
 				"make install"
 			]
 		},
-		{ 
+		{
+			"name": "assimp",
+			"dir": "assimp",
+			"build_in": "$(MKVFX_BUILD_ROOT)/assimp",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/assimp/assimp.git"
+			},
+			"recipe_osx": [ 
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/assimp",
+				"make -j 4",
+				"make install"
+			]
+		},
+		{
 			"name": "boost",
 			"dir": "boost",
 			"build_in": "$(MKVFX_SRC_ROOT)/boost/boost_1_57_0",
@@ -252,7 +266,7 @@
 			"dir": "OpenShadingLanguage",
 			"build_in": "$(MKVFX_SRC_ROOT)/OpenShadingLanguage",
 			"dependencies": ["OpenImageIO", "partio", "llvm"],
-			"notes": "export library path doesn't work from this script. Must be a way to set it for subprocesses, right now I am doing it from CLI",
+			"notes": "export DYLD_LIBRARY_PATH doesn't work from this script. Setting it is super not-good, must be another way to invoke osl compiler, dylibs in bin?",
 			"repository": {
 				"type": "git",
 				"url": "git://github.com/imageworks/OpenShadingLanguage.git"
@@ -266,7 +280,6 @@
 				" -DILMBASE_HOME=$(MKVFX_ROOT)/include +",
 				" -DUSE_CPP11=1 -DUSE_LIBCPLUSPLUS=1 +",
 				" ..",
-				"export DYLD_LIBRARY_PATH=$(MKVFX_ROOT)/lib; +",
 				"cd build;make -j 4",
 				"cd build;make install"
 			]
