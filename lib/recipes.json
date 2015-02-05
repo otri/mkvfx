@@ -129,11 +129,9 @@
 				"type": "git",
 				"url": "git://github.com/g-truc/glm.git"
 			},
-			"recipe_osx": [
-				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/glm",
-				"make -j 4" 
-			],
 			"install_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/glm",
+				"make -j 4",
 				"make install"
 			]
 		},
