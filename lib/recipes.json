@@ -17,7 +17,9 @@
 				"-DHDF5_ROOT=$(MKVFX_ROOT) +",
 				"-DALEMBIC_PYILMBASE_PYIMATH_LIB= +",
 				"-DILMBASE_ROOT=$(MKVFX_ROOT)",
-				"make -j2",
+				"make -j 4" 
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -32,6 +34,9 @@
 			"recipe_osx": [ 
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/assimp",
 				"make -j 4",
+				"make -j 4" 
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -47,7 +52,9 @@
 			"recipe_osx": [
 				"echo $(MKVFX_SRC_ROOT)",
 				"cp $(MKVFX_SRC_ROOT)/boost-build-club/* $(MKVFX_SRC_ROOT)/boost/boost_1_57_0",
-				"chmod 744 build-OSX.sh;./build-OSX.sh",
+				"chmod 744 build-OSX.sh;./build-OSX.sh"
+			],
+			"install_osx": [
 				"cp $(MKVFX_SRC_ROOT)/boost/boost_1_57_0/stage-OSX/lib/* $(MKVFX_ROOT)/lib",
 				"cp -R $(MKVFX_SRC_ROOT)/boost/boost_1_57_0/boost $(MKVFX_ROOT)/include/boost"
 			]
@@ -61,7 +68,8 @@
 				"url": "https://github.com/meshula/boost-build-club.git"
 			},
 			"recipe_osx": [
-			]
+			],
+			"install_osx": []
 		},
 		{
 			"name": "c-blosc",
@@ -74,6 +82,9 @@
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/c-blosc",
 				"make -j 4",
+				"make -j 4" 
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -87,7 +98,9 @@
 			},
 			"recipe_osx": [
 				"make -C $(MKVFX_SRC_ROOT)/glew extensions",
-				"make -C $(MKVFX_SRC_ROOT)/glew all",
+				"make -C $(MKVFX_SRC_ROOT)/glew all"
+			],
+			"install_osx": [
 				"make -C $(MKVFX_SRC_ROOT)/glew GLEW_DEST='$(MKVFX_ROOT)' install"
 			]
 		},
@@ -104,6 +117,9 @@
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) -DGLFW_USE_MENUBAR=1 $(MKVFX_SRC_ROOT)/glfw",
 				"make -j 4",
+				"make -j 4" 
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -118,6 +134,9 @@
 			"recipe_osx": [
 				"cmake -DHDF5_BUILD_HL_LIB=1 -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=build -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/hdf5",
 				"make -j 4",
+				"make -j 4" 
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -132,7 +151,9 @@
 			},
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/IlmBase",
-				"make -j 4",
+				"make -j 4"
+			],
+			"install_osx": [
 				"make install",
 				"ln -s -f $(MKVFX_ROOT)/lib/libIex-2_2.dylib $(MKVFX_ROOT)/lib/libIex.dylib",
 				"ln -s -f $(MKVFX_ROOT)/lib/libIex-2_2.la $(MKVFX_ROOT)/lib/libIex.la",
@@ -154,7 +175,9 @@
 			},
 			"recipe_osx": [
 				"./configure --prefix=$(MKVFX_ROOT)",
-				"make -j4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install",
 				"make install-lib"
 			]
@@ -169,7 +192,9 @@
 			},
 			"recipe_osx": [
 				"autoreconf -fiv",
-				"./configure --prefix=$(MKVFX_ROOT)",
+				"./configure --prefix=$(MKVFX_ROOT)"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -184,7 +209,9 @@
 			},
 			"recipe_osx": [
 				"./configure --prefix=$(MKVFX_ROOT) --enable-cxx=0",
-				"make -j4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -201,7 +228,9 @@
 			"recipe_osx": [
 				"cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=\"X86\" -DLLVM_REQUIRES_RTTI=ON +",
 				" -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/llvm",
-				"make -j4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -217,7 +246,9 @@
 			},
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenColorIO",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -233,7 +264,9 @@
 			},
 			"recipe_osx": [
 				"cmake -DILMBASE_PACKAGE_PREFIX=$(MKVFX_ROOT) -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/OpenEXR",
-				"make -j 4",
+				"make -j 4"
+			],
+			"install_osx": [
 				"make install",
 				"ln -s -f $(MKVFX_ROOT)/lib/libIlmImf-2_2.dylib $(MKVFX_ROOT)/lib/libIlmImf.dylib",
 				"ln -s -f $(MKVFX_ROOT)/lib/libIlmImfUtil-2_2.dylib $(MKVFX_ROOT)/lib/libIlmImfUtil.dylib"
@@ -257,7 +290,9 @@
 				"-DOPENEXR_ILMIMF_LIBRARIES=$(MKVFX_ROOT)/lib +",
 				"-DOCIO_PATH=$(MKVFX_ROOT) +",
 				"..",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -280,7 +315,9 @@
 				" -DILMBASE_HOME=$(MKVFX_ROOT)/include +",
 				" -DUSE_CPP11=1 -DUSE_LIBCPLUSPLUS=1 +",
 				" ..",
-				"cd build;make -j 4",
+				"cd build;make -j 4"
+			],
+			"install_osx": [
 				"cd build;make install"
 			]
 		},
@@ -295,7 +332,9 @@
 			},
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) -DGLEW_LOCATION=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenSubdiv",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -309,6 +348,8 @@
 				"url": "git://github.com/dreamworksanimation/openvdb.git"
 			},
 			"recipe_osx": [
+			],
+			"install_osx": [
 			]
 		},
 		{
@@ -323,7 +364,9 @@
 			"recipe_osx": [
 				"mkdir -p $(MKVFX_SRC_ROOT)/partio/src/doc/html",
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/partio",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -337,7 +380,8 @@
 			},
 			"recipe_osx": [
 				"cd $(MKVFX_SRC_ROOT)/ptex/src;make INSTALLDIR='$(MKVFX_ROOT)'"
-			]
+			],
+			"install_osx": []
 		},
 		{
 			"name": "PyIlmBase",
@@ -355,7 +399,9 @@
                 "rm $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/CMakeLists.txt",
                 "mv $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/xxx.tmp $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase/CMakeLists.txt",
 				"cmake -DILMBASE_PACKAGE_PREFIX=$(MKVFX_ROOT) -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/OpenEXR/PyIlmBase",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -370,7 +416,9 @@
 			},
 			"recipe_osx": [
 				"./configure --prefix=$(MKVFX_ROOT)",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -387,7 +435,9 @@
 			],
 			"recipe_linux": [
 				"./configure --prefix=$(MKVFX_ROOT)",
-				"make -j 4",
+				"make -j4"
+			],
+			"install_osx": [
 				"make install"
 			]
 		},
@@ -402,7 +452,9 @@
 			"recipe_osx": [
 				"cd $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss",
 				"pwd",
-				"make -j 4",
+				"make -j 4"
+			],
+			"install_osx": [
 				"cp $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/build/macos_intel64_clang_cc4.2.1_os10.10.1_release/*.dylib $(MKVFX_ROOT)/lib",
 				"cp -R $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/include/serial $(MKVFX_ROOT)/include/serial",
 				"cp -R $(MKVFX_SRC_ROOT)/tbb/tbb43_20141204oss/include/tbb $(MKVFX_ROOT)/include/tbb"
