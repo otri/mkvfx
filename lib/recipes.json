@@ -112,11 +112,25 @@
 			"repository": {
 				"type": "git",
 				"url": "git://github.com/glfw/glfw.git"
-			}
-			,
+			},
 			"recipe_osx": [
 				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) -DGLFW_USE_MENUBAR=1 $(MKVFX_SRC_ROOT)/glfw",
-				"make -j 4",
+				"make -j 4" 
+			],
+			"install_osx": [
+				"make install"
+			]
+		},
+		{
+			"name": "glm",
+			"dir": "glm",
+			"build_in": "$(MKVFX_BUILD_ROOT)/glm",
+			"repository": {
+				"type": "git",
+				"url": "git://github.com/g-truc/glm.git"
+			},
+			"recipe_osx": [
+				"cmake -DCMAKE_INSTALL_PREFIX=$(MKVFX_ROOT) $(MKVFX_SRC_ROOT)/glm",
 				"make -j 4" 
 			],
 			"install_osx": [
