@@ -72,6 +72,7 @@ You should see a message like -
  libpng
  libtiff
  llvm
+ nanovg
  OpenColorIO
  OpenEXR
  OpenImageIO
@@ -83,6 +84,7 @@ You should see a message like -
  PyIlmBase
  python
  sqlite
+ stb
  tbb
 
  mkvfx [options] [packages]
