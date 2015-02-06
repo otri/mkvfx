@@ -59,11 +59,13 @@ You should see a message like -
 ```
  mkvfx knows how to build:
  Alembic
+ assimp
  boost
  boost-build-club
  c-blosc
  glew
  glfw
+ glm
  hdf5
  IlmBase
  libjpeg
@@ -85,6 +87,7 @@ You should see a message like -
 
  mkvfx [options] [packages]
  --help           this message
+ --install        install previously built package if possible
  --nofetch        skip fetching, default is fetch
  --nobuild        skip build, default is build
  --nodependencies skip dependencies
