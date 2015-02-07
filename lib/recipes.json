@@ -255,6 +255,7 @@
 				"url": "git://github.com/memononen/nanovg.git"
 			},
 			"recipe_osx": [
+				"cp $(MKVFX_SRC_ROOT)/stb/stb_image.h $(MKVFX_SRC_ROOT)/nanovg/src/stb_image.h",
 				"gcc -c -fPIC $(MKVFX_SRC_ROOT)/nanovg/src/nanovg.c",
 				"ar rs nanovg.a nanovg.o"
 			],
@@ -355,7 +356,7 @@
 			"name": "OpenSubdiv",
 			"dir": "OpenSubdiv",
 			"build_in": "$(MKVFX_ROOT)/OpenSubdiv",
-			"dependencies": ["glew", "IlmBase", "ptex"],
+			"dependencies": ["glew", "glfw", "IlmBase", "ptex"],
 			"repository": {
 				"type": "git",
 				"url": "git://github.com/PixarAnimationStudios/OpenSubdiv.git"
